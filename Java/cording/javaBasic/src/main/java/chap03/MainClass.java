@@ -1,4 +1,4 @@
-package pjtTest;
+package chap03;
 
 public class MainClass {
 	
@@ -7,7 +7,7 @@ public class MainClass {
 		//1강
 		//System.out.println("Hello Java World!!");
 		
-		//3강
+		//3강. 변수
 		int i = 10;
 		int j;
 		j = 100;
