@@ -1,56 +1,49 @@
-
--- Goods 테이블에서 세 개의 열을 선택하여 출력
-SELECT goods_id, goods_name, buy_price
-    FROM Goods;
-
--- 모든 열 출력(* = 모든 열) -> 결과 열의 정렬 순서를 지정할 수 없다. (CREATE TABLE에서 정의한 순서를 따라 출력)
-SELECT * FROM Goods;
-
--- *은 모든 열을 나열하여 출력하는 것과 같다.
-SELECT goods_id, goods_name, goods_classify, sell_price, buy_price, register_date
-    FROM Goods;
-
--- 별명 부여하기(Alias => AS)
-SELECT goods_id AS id,
-       goods_name AS name,
-       buy_price AS price
-    FROM Goods;
-
--- 한글로 별명 부여(큰 따옴표("") 사용!)
-SELECT goods_id AS "상품ID",
-       goods_name AS "상품명",
-       buy_price AS "매입 단가"
-    FROM Goods;
-
--- 상수 출력 -> 상수는 작은따옴표('')
-SELECT '상품' AS munja, 38 AS num, '2009-02-24' AS nalja, goods_id, goods_name
-    FROM Goods;
-
--- 중복 행 제거 = DISTINCT
-SELECT DISTINCT goods_classify
-    FROM Goods;
-
--- DISTINCT 특징 => NULL도 하나의 데이터로 인식된다.
-SELECT DISTINCT buy_price
-    FROM Goods;
-
--- DISTINCT를 복수 열앞에 두는 경우 => 복수의 행을 조합해도 중복된 행만 하나로 모아진다...이해가 안되면 결과 확인
-SELECT DISTINCT goods_classify, register_date
-    FROM Goods;
-
--- DISTINCT 특징 => 열명(SELECT 등) 앞에만 놓일 수 있는 키워드
-
--- 조건 지정 => WHERE 구 + (조건식)
-SELECT goods_name, goods_classify
+-- 1. 상품(Goods) 테이블에서 '등록일(register_date)이 2009년 4월 28일 이후'인 상품의 이름(goods_name)과 등록일
+SELECT goods_name, register_date
     FROM Goods
-   WHERE goods_classify = '의류';
+   WHERE register_date >= '2009-04-28';
 
+-- 2. Goods 테이블에 대해 실행한 3가지 SELECT문에 대한 결과
+SELECT *
+    FROM Goods
+   WHERE buy_price = NULL;
 /*
-    WHERE 구에서 지정한 조건과 일치하는 행을 우선 선택 후,
-    SELECT 구에서 지정한 열을 출력한다.
+    비문이기때문에 결과값이 없다.(결과 행이 0이다.) 
+    NULL 값을 가진 행을 출력하려면 IS NULL을 사용해야 한다.
 */
 
--- 검색 조건에 사용한 열을 출력하지 않아도 된다.
-SELECT goods_name
+SELECT *
     FROM Goods
-   WHERE goods_classify = '의류';
+   WHERE buy_price <> NULL;
+
+/*
+    마찬가지로 비문이므로 결과값이 없다.
+    NULL 값을 가지지 않은 행을 출력하려면 IS NOT NULL을 사용해야 한다.
+*/
+
+SELECT *
+    FROM Goods
+   WHERE goods_name > NULL;
+
+/*
+    비문이므로 결과값이 없다.
+    NULL은 비교 연산자를 사용할 수 없다.
+*/
+
+-- 3. Goods 테이블에서 '판매단가(sell_price)가 매입단가(buy_price)보다 500원 이상 높은'상품을 선택하는 SELECT문
+    --(1)번
+SELECT goods_name, sell_price, buy_price
+    FROM Goods
+   WHERE sell_price - buy_price >= 500;
+    --(2)번
+SELECT goods_name, sell_price, buy_price
+    FROM Goods 
+   WHERE NOT sell_price - buy_price < 500;
+
+-- 4. Goods 테이블에서 '판매단가를 10% 빼도 이익이 100원보다 높은 주방용품과 사무용품'을 선택한다.
+-- 출력열은 goods_name, goods_classify, 판매단가를 10% 뺀 경우 이익(profit이란 별명)이다.
+SELECT goods_name, goods_classify, sell_price - (sell_price * 0.9) AS profit
+    FROM Goods
+   WHERE sell_price - (sell_price * 0.9) > 100
+     AND (   goods_classify = '주방용품'
+          OR goods_classify = '사무용품');
