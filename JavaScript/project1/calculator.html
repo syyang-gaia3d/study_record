@@ -79,10 +79,28 @@
                 } else {
                     // 연산자 입력 후 숫자입력
                     display.value = display.value + char; //display.value += char 도 가능
-                }
+                }                
             } else {
                 //숫자를 입력한 경우
-                display.value += char;
+                if(isNaN(char) == false) {
+                    display.value += char;
+                } else {
+                    if(result.value == "" || result.value == null) {
+                        display.value += char;
+                    } else {
+                        //result.value 가 ""이나 null이 아닐 때 이전 계산식을 지우고 결과값을 위로 가져온다.
+                        var displayValue = display.value;
+                        var resultValue = result.value;
+
+                        if(displayValue.indexOf(resultValue) == -1) {
+                            display.value = "";
+                            display.value = result.value;
+                            display.value += char;
+                        } else {
+                            display.value += char;
+                        }
+                    }
+                }
             }
 
             if(isNaN(char) == true) {
@@ -95,8 +113,13 @@
         }
 
         //TODO -> 계산기능, 사칙연산(eval함수 이용)
-        function cal() {
+        function cal() { 
             var calculate = eval(display.value);
+
+            if(result.value != null || result.value != "") {
+                result.value == "";
+            }
+
             result.value = calculate;
         }
 
@@ -108,9 +131,7 @@
             result.value = "";
         }
         /*
-            나홀로 숙제
-
-            validation check : display는 숫자, +,-,*,/,. 기호만, result는 숫자(소수까지)만 입력
+            값 확인 어떻게 할까? : display는 숫자, +,-,*,/,. 기호만, result는 숫자(소수까지)만 입력
 
             한글자만 지우는 건 어떻게 하는 걸까?
             value는 문자열이니까 문자열의 개수 = 문자배열의 인덱스값 +1
