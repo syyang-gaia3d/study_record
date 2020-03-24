@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JQuery 계산기</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        td {
+            padding: 5px 10px;
+            text-align: center;
+        }
+        input {
+            text-align: right;
+            border: none;
+        }
+        input:focus {
+            outline: none;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td colspan="4">
+                <input type="text" id="display" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <input type="text" id="result" readonly>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">AC</td>
+            <td>.</td>
+            <td>/</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>*</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td rowspan="2">+</td>
+        </tr>
+        <tr>
+            <td colspan="2">0</td>
+            <td>=</td>
+        </tr>
+    </table>
+    <br><br><br>
+   
+    <script>
+        $(document).ready(function() {
+            // 숫자와 문자열 구분을 위한 변수
+            var numberChecked = false; 
+            
+            // 표로 나뉘어진 계산기를 눌렀을 때
+            $('td').on('click', function() {
+                var value = $(this).html(); // 누른 값
+                var result = $('#display').val() + value;
+
+                if(value.indexOf('<input') != -1) {
+                    return;
+                }
+
+                if(value === 'AC') {
+                    //AC를 누른 경우 : 초기화
+                    $('#display').val('');
+                    $('#result').val('');
+                } else if(value === '=') {
+                    // =을 누른 경우 : 계산 후 계산값 표시
+                    var display = $('#display').val();
+                    var calc = eval(display);
+                    $('#result').val(calc);
+                } else {
+                    // 그 외(숫자 혹은 연산기호) : 값 표시
+                    if(!numberChecked) {
+                        if(value === '+' || value === '-' || value === '*' || value === '/') {
+                            //연산자 입력 후 연산자 입력 => 아무 일 없음
+                            numberChecked = false;
+                        } else {
+                            // 연산자 입력 후 숫자 입력
+                            $('#display').val(result);
+                            
+                            numberChecked = true;
+                        }
+                    } else {
+                        // 숫자 입력
+                        $('#display').val(result);
+                        
+                        if(value === '+' || value === '-' || value === '*' || value === '/') {
+                            numberChecked = false;
+                        } else {
+                            numberChecked = true;
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
