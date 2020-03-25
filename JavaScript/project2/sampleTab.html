@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* tab button */
+        .tab {
+            background-color: #555;
+            color: white;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            font-size: 17px;
+            width: 25%;
+        }
+
+        /* change background color when mouse over */
+        .tab:hover {
+            background-color: #777;
+        }
+
+        /* default content */
+        .content {
+            color: white;
+            display: none;
+            padding: 50px;
+            text-align: center;
+        }
+
+        /* Style each tab content individually */
+        #About { background-color: tomato; }
+        #Products { background-color: darkolivegreen; }
+        #Technology { background-color: dodgerblue; }
+        #Downloads { background-color: orange; }   
+    </style>
+</head>
+
+<body>
+    <div id="About" class="content">
+      <h1>About</h1>
+      <p>Custom Software Development Company</p>
+    </div>
+
+    <div id="Products" class="content">
+      <h1>Products</h1>
+      <p>Building tailored software to address critical needs of global enterprises.</p>
+    </div>
+
+    <div id="Technology" class="content">
+      <h1>Technology</h1>
+      <p>Machine Learning, Artificial Intelligent, Cloud Platform.</p>
+    </div>
+
+    <div id="Downloads" class="content">
+      <h1>Downloads</h1>
+      <p>You can download a free 10 days trial.</p>
+    </div>
+
+    <button id="default" class="tab" onclick="openMenu('About', this, 'tomato')">About</button>
+    <button class="tab" onclick="openMenu('Products', this, 'darkolivegreen')">Products</button>
+    <button class="tab" onclick="openMenu('Technology', this, 'dodgerblue')">Technology</button>
+    <button class="tab" onclick="openMenu('Downloads', this, 'orange')">Downloads</button>
+
+    <br><br><br>
+    <a href="http://dinfree.com/lecture/frontend/123_js_exam.html">javascript 디자인 요소 참고 자료</a>
+
+    <script type="text/javascript">
+
+        //default 아이디를 사용하는 요소가 클릭되도록 함
+        document.getElementById("default").click();
+
+        //탭을 눌렀을 때
+        function openMenu(target, seltab, color) {
+
+            /*
+                getElementsByClassName은 "컬렉션 객체"를 반환하므로 특정 index로 요소를 하나로 특정해야 요소에 대한 함수를 사용할 수 있다.
+                id와 달리 class는 여러 요소를 가리킬 수 있기 때문!! => 전체 요소에 같은 기능을 적용하려면 for문과 length를 조합하자.
+                
+                getElementByClassName은 getElementById처럼 하나 쓰고 바로 개별 객체에 대한 기능이나 속성을 부여할 수 XXXX
+
+            */
+
+            var contents = document.getElementsByClassName("content");
+            for (var i = 0; i < contents.length ; i++) {
+                let content = contents.item(i);
+                content.style.display = "none";
+            }
+
+            var tabs = document.getElementsByClassName("tab");
+            for (var i = 0; i < tabs.length ; i++) {
+                let tab = tabs.item(i);
+                tab.removeAttribute("style");
+            }
+        
+            document.getElementById(target).style.display = "block";
+            seltab.setAttribute("style", "background-color: " + color);
+        }
+    </script>
+  </body>
+</html>
