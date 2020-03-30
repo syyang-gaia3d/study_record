@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JQuery</title>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>   
+    </head>
+    <body>
+        가로 : 
+        <select id="row">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        세로 : 
+        <select id="col">
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+
+        <div></div>
+
+        <script>
+
+            $('#col').on('change', function() {
+                var row = $('#row').val();
+                var col = $('#col').val();
+
+                var table = $('<table></table>');
+
+                $('div').append(table);
+                $('table').css('border', 1);
+
+                for(var i = 0 ; i < row; i++) {
+                    var tr = $('<tr></tr>');
+                    table.append(tr);
+
+                    for(var j = 0 ; j < col; j++) {
+                        var td = $('<td></td>');
+                        tr.append(td);
+                        td.innerHTML = '<select></select>';
+                    }
+                }
+                input(1);
+
+                //div[0].appendChild(table);
+                
+                
+            });
+
+            function input(col) {
+                var val = col == "" ? "": col + "."; //처음 value값으로 들어가는 숫자 -> col 수까지 증가
+                var num = 1; //val = val + '.' + num + '.' => 다음 td 옆 option에 들어갈 숫자. 5까지만 증가. 초기화 필요?
+                //var select = '<select></select>';
+
+                for (var i = 0 ; i < 5; i++) {
+
+                    num = num + i;
+
+                    //var option = $('<option value="' + val + num + '">' + val + num + '</option>');
+                    var option = $('<option>1</option>');
+                    $('select').append(option);
+                }
+                num = 1;
+
+                //return select;
+
+            }
+            //alert(input('1'));
+
+        //테이블 개수는 하드코딩 select -> 여기서 얻은 값으로 표가 만들어지고 그 안에 숫자값은 x -> x.y -> x.y.z -> x.y.z.s 식으로 영향
+        </script>
+    </body>
+</html>
