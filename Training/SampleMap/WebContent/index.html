@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 500px;
+        width: 100%;
+      }
+    </style>
+    <script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script>
+    <title>OpenLayers example</title>
+  </head>
+  <body>
+    <h2>My Map</h2>
+    <div id="map" class="map"></div>
+    <script>
+    
+      var layers = [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        }),
+        new ol.layer.Image({
+        	extent: [127.275, 36.012, 128.65, 37.258],
+        	source: new ol.source.ImageWMS({
+        		url: 'http://127.0.0.1:8080/geoserver/wms',
+        		params: {'LAYERS': 'sample:sample_4326'},
+        		ratio: 1,
+        		serverType: 'geoserver'
+        	})
+        })
+      ];
+
+      var map = new ol.Map({
+        controls: ol.control.defaults().extend([
+          new ol.control.ScaleLine({
+            units: 'degrees'
+          })
+        ]),
+        layers: layers,
+        target: 'map',
+        view: new ol.View({
+          projection: 'EPSG:4326',
+          center: [126.97,37.56],
+          zoom: 6
+        })
+      });
+    </script>
+  </body>
+</html>
