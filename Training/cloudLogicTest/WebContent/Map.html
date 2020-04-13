@@ -29,14 +29,15 @@
     		  			'128.7074 36.87599, 128.4219 36.8631))';
       
       var geom = format.readGeometry(sample_wkt);
-	
-      var points = splitWkt(sample_wkt);
 
       var feature = new ol.Feature ({
     	geometry: geom
       });
       
-      features.push(feature);  	  
+      features.push(feature);  //지도에 베이스 폴리곤 형태 시각화
+	
+      //베이스 폴리곤 16*16등분
+      var points = splitWkt(sample_wkt);
       
       var lines = makeLines(points);
       
