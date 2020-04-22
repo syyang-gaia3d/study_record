@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chapter 3 - Recipe 2 - Reducing the selection set to specified item</title>
+    <script src="jquery-3.5.0.min.js"></script>
+    <script>
+        (function($) {
+            $(document).ready(function() {
+                $("ol#east > li").eq(7).css("border-bottom", "1px solid #000000");
+                $("ol#west > li").eq(7).css("border-bottom", "1px solid #000000");
+            });
+        })(jQuery);
+    </script>
+</head>
+<body>
+    <h2>Eastern Conference</h2>
+    <ol id="east">
+        <li>Boston Bruins</li>
+        <li>Washington Capitals</li>
+        <li>New Jersey Devils</li>
+        <li>Pittsburgh Penguins</li>
+        <li>Philadephia Flyers</li>
+        <li>Carolina Hurricanes</li>
+        <li>New York Rangers</li>
+        <li>Montreal Canadians</li>
+        <li>Florida Panthers</li>
+        <li>Buffalo Sabres</li>
+        <li>Ottawa Senators</li>
+        <li>Toronto Maple Leafs</li>
+        <li>Atlanta Thrashers</li>
+        <li>Tampa Bay Lightning</li>
+        <li>New York Islanders</li>
+    </ol>
+    <h2>Western Conference</h2>
+    <ol id="west">
+        <li>Boston Bruins</li>
+        <li>Washington Capitals</li>
+        <li>New Jersey Devils</li>
+        <li>Pittsburgh Penguins</li>
+        <li>Philadephia Flyers</li>
+        <li>Carolina Hurricanes</li>
+        <li>New York Rangers</li>
+        <li>Montreal Canadians</li>
+        <li>Florida Panthers</li>
+        <li>Buffalo Sabres</li>
+        <li>Ottawa Senators</li>
+        <li>Toronto Maple Leafs</li>
+        <li>Atlanta Thrashers</li>
+        <li>Tampa Bay Lightning</li>
+        <li>New York Islanders</li>
+    </ol>
+</body>
+</html>

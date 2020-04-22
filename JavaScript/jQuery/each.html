@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        Chapter 3 - Recipe 1 - Looping through a set of selected results
+    </title>
+    <style>
+        .even {
+            background-color: #ffffff;
+        }
+        .odd {
+            background-color: #cccccc;
+        }
+    </style>
+    <script src="jquery-3.5.0.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function() {
+                $("ul > li").each (function(i) { // 단 한줄로 처리 -> $("ul > li:odd").addClass("odd");
+                    if(i % 2 == 1) {
+                        $(this).addClass("odd");
+                    } else {
+                        $(this).addClass("even");
+                    }
+                });
+            });
+        })(jQuery);
+    </script>
+</head>
+<body>
+    <h2>Family Members</h2>
+    <ul>
+        <li>Ralph</li>
+        <li>Hope</li>
+        <li>Brandon</li>
+        <li>Jordan</li>
+        <li>Ralphie</li>
+    </ul>
+</body>
+</html>

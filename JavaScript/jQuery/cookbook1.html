@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+
+    <form>
+        <input name="" type="checkbox">
+        <input name="" type="radio">
+        <input name="" type="text">
+        <input name="" type="button">
+    </form>
+
+    <form>
+        <input name="" type="checkbox">
+        <input name="" type="radio">
+        <input name="" type="text">
+        <input name="" type="button">
+    </form>
+
+    <input name="" type="checkbox">
+    <input name="" type="radio">
+    <input name="" type="text">
+    <input name="" type="button">
+
+    <a href="#" class="external"></a>
+    <a href="#" class="external"></a>
+    <a href="#"></a>
+    <a href="#"></a>
+    <a href="#" class="external"></a>
+    <a href="#" class="external"></a>
+    <a href="#"></a>
+    <a href="#"></a>
+    <a href="#"></a>
+    <a href="#"></a>
+
+    <script src='jquery-3.5.0.min.js'></script>
+    <script>
+        /* 특정 컨텍스트 안에서 DOM 요소 선택하기 */
+
+        // 컨텍스트 래퍼를 사용하여 모든 form 요소 안에서 input 요소를 찾는다. 8개의 input 출력
+        alert('selected ' + jQuery('input', $('form')).length + ' inputs');
+
+        // 컨텍스트로 DOM 참조를 사용하여 첫 번째 form 요소 안에서 input 요소를 찾는다. 4개의 input 출력
+        alert('selected ' + jQuery('input', document.forms[0]).length + ' inputs');
+
+        // 표현식을 사용하여 body 요소 안에 있는 모든 input 요소를 찾는다. 12개의 input 출력
+        alert('selected ' + jQuery('input', 'body').length + ' inputs');
+
+        /* DOM 요소의 래퍼 집합 필터링[filter()]하기*/
+
+        // 집합에는 4개가 남아있다고 출력
+        alert(jQuery('a').filter('.external').length + ' external links');
+        // filter()는 함수를 파라미터로 가질 수 있다.
+        alert(
+            jQuery('a')
+                .filter(function(index){ return $(this).hasClass('external');})
+                .length + ' external links'
+            );
+
+
+        // jQuery 필터링 예제
+        // 1. 너비가 100px에서 200px 사이에 있는 모든 DIV 요소 선택
+        jQuery('div').filter(function() {
+            var width = jQuery(this).width();
+            return width > 100 && width < 200;
+        });
+
+        // 2. 일반적인 이미지 확장자를 갖는 모든 이미지를 선택 
+        jQuery('img').filter(function() {
+            return /\.(jpe?g|png|bmp|gif)(\?.+)?$/.test(this.src);
+        });
+
+        // 3. 자식의 수가 10 또는 20인 모든 요소 선택
+        jQuery('*').filter(function() {
+            var children = jQuery(this).children().length;
+            return children === 10 || children === 20;
+        });
+    </script>
+</body>
+</html>
