@@ -14,7 +14,7 @@ function splitWkt(wkt) {
 		locatStr = locatStr.replace(/\s+/,''); 
 	}
 	
-	const points = [[],[]]; //배열선언
+	const points = []; //배열선언
 	
 	//좌표 개수가 1개(point)인지, 여러개(line, polygon)인지 체크
 	let comma = /\,/gi;
@@ -30,79 +30,65 @@ function splitWkt(wkt) {
 		}
 		
 		for(i = 0; i < locatArray.length; i++) {
-            
+			
+			var pointObj = {}; //객체선언
+			
             const locats = locatArray[i].split(' ');
-            points[0].push(Number(locats[0]));
-            points[1].push(Number(locats[1]));
+            pointObj.lng = Number(locats[0]);
+            pointObj.lat = Number(locats[1]);
+            
+            points.push(pointObj);
 		}
 	} else {
         
         const locats = locatStr.split(' ');
-        points[0].push(Number(locats[0]));
-        points[1].push(Number(locats[1]));
+        pointObj.lng = Number(locats[0]);
+        pointObj.lat = Number(locats[1]);
+        
+        points.push(pointObj);
 	}
 	
 	return points;
 }
 
 // 두 좌표 사이를 16등분한 17개의 좌표 중 index 값에 따른 특정 좌표를 리턴
-function equals(lng1, lat1, lng2, lat2, index) {
-    const points = [[], []]; //[0][] = 경도(lng), [1][] = 위도(lat)
-	
-	//간격
-	let lng_equals = (lng2 - lng1)/DENO;
-	let lat_equals = (lat2 - lat1)/DENO;
+function equals({lng : x1, lat : y1}, {lng : x2, lat : y2}, index) {
 
-	points[0][0] = lng1;
-	points[1][0] = lat1;
+	var point1 = {lng : x1, lat : y1};
+	var point2 = {lng : x2, lat : y2};
 	
-	for (i = 0; i < DENO; i++) { 
-		points[0][i+1] = points[0][i] + lng_equals;
-		points[1][i+1] = points[1][i] + lat_equals;
-		
-	}
+	var result = {}; //객체를 담을 변수 선언
 	
-	const point = String(points[0][index] + ', ' + points[1][index]);
-	
-	return point;
-}
+	var lng = point1.lng + ((point2.lng - point1.lng)/DENO * index);
+	var lat = point1.lat + ((point2.lat - point1.lat)/DENO * index);
 
-// 한 선분을 16등분하는 점중에 원하는 좌표로 WKT 출력
-function makePoint(lng1, lat1, lng2, lat2, index) {
-	let point = equals(lng1, lat1, lng2, lat2, index);
+	result.lng = lng;
+	result.lat = lat;
 	
-	let lng = point.split(', ')[0];
-	let lat = point.split(', ')[1];
-	
-	let pointWkt = 'POINT(' + lng + ' ' + lat + ')';
-	
-	return pointWkt;
+	return result;
 }
 
 // 가로 세로 16등분 라인 생성(임시)
 function makeLines(points) {
-    
-    let topLeft = equals(points[0][0], points[1][0], points[0][3], points[1][3], 0);
-    let topRight = equals(points[0][0], points[1][0], points[0][3], points[1][3], 16);
-    let bottom = equals(points[0][1], points[1][1], points[0][2], points[1][2], 0);
-    let left = equals(points[0][0], points[1][0], points[0][1], points[1][1], 0);
-    let right = equals(points[0][3], points[1][3], points[0][2], points[1][2], 0);
+	let top, bottom, left, right;
     
     let lines = [];
     
-    for(i = 1; i < DENO; i++) {
-        let verti = 'LINESTRING (' + top[0][i] + ' ' + top[1][i] + ', '
-                 + bottom[0][i] + ' ' + bottom[1][i] + ')';
+    for(var i = 0; i < DENO; i++) {
+    	
+    	top = equals(points[0], points[3], i + 1);
+    	bottom = equals(points[1], points[2], i + 1);
+    	left = equals(points[0], points[1], i + 1);
+    	right = equals(points[3], points[2], i + 1);
+    	
+        let verti = 'LINESTRING (' + top.lng + ' ' + top.lat + ', ' + bottom.lng + ' ' + bottom.lat + ')';
         
         lines.push(verti);
         
-        let hori = 'LINESTRING (' + left[0][i] + ' ' + left[1][i] + ', '
-                  + right[0][i] + ' ' + right[1][i] + ')';
+        let hori = 'LINESTRING (' + left.lng  + ' ' + left.lat + ', ' + right.lng + ' ' + right.lat + ')';
         
         lines.push(hori);
     }
     
     return lines;
 }
-
-// 두 라인간 교점 좌표
